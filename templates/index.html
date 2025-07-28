@@ -1,0 +1,15 @@
+
+<form method="post">
+    Username: <input name="username"><br>
+    Password: <input name="password"><br>
+    <input type="submit" value="login">
+</form>
+
+<h2>Change password</h2>
+<form action="/change_password" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    New password: <input name="password" type="password"><br>
+    <input type="submit" value="Change">
+</form>
+<p><a href="/adminpage">Go admin page</a></p>
+
