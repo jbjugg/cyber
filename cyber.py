@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, render_template_string, redirect, session
+from flask import Flask, request, render_template, render_template_string, redirect, session, CSRFProtect
 from werkzeug.security import generate_password_hash, check_password_hash
 from os import getenv
 import sqlite3
@@ -8,6 +8,8 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
 app.secret_key = "iuwoeh0230"
 database = "users.db"
+#FIX FOR FLAW 3
+#csrf = CSRFProtect(app)
 
 if not os.path.exists(database):
     connect = sqlite3.connect(database)
