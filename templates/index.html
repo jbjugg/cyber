@@ -7,7 +7,7 @@
 
 <h2>Change password</h2>
 <form action="/change_password" method="post">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    {{ csrf_token() }}
     New password: <input name="password" type="password"><br>
     <input type="submit" value="Change">
 </form>
