@@ -15,11 +15,11 @@ if not os.path.exists(database):
     connect = sqlite3.connect(database)
     db = connect.cursor()
     db.execute("DROP TABLE IF EXISTS users")
-    db.execute("""CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT, password TEXT)""")
+    db.execute("""CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT, password TEXT, balance REAL, account_number TEXT)""")
     db.execute("""INSERT INTO users (username, password) VALUES ("admin", "admin_ok")""")
     #A07:2021 Identification and Autehtication Failures
     #Fix: hashed_password = generate_password_hash("admin_ok")
-    #db.execute("""INSERT INTO users (username, password) VALUES (?, ?)""", ("admin", "hashed_password"))
+    #db.execute("""INSERT INTO users (username, password, balance, account_number) VALUES (?, ?, ?, ?)""", ("admin", "hashed_password", 500, 1234ACCOUNT))
     connect.commit()
     connect.close()
 
@@ -63,6 +63,16 @@ def adminpage():
     if "user" in session: #Does not check the status of the user
     #Fixed with checking if the user is an admin:
     #if "user" in session and session["user"] == "admin":
+        connect = sqlite3.connect(database)
+        db = connect.cursor()
+        db.execute("SELECT username, balance, account_number FROM users")
+        users = db.fetchall()
+        connect.close()
+        info = "<h2> data </h2><table border="1"><tr><th>username</th><th>balance</th><th>account number</th></tr>"
+        for username, balance, account_number in users:
+            info += f"<tr><td>{username}</td><td>{balance}</td><td>{account_number}</td></tr>"
+        info += "</table><hr>"
+        
         return f"""Hello world and especially {session["user"]}
         <form action="/moneytransfer" method="post">
         <p>Transfer money cause why not?</p>
