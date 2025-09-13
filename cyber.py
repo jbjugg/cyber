@@ -68,12 +68,13 @@ def adminpage():
         db.execute("SELECT username, balance, account_number FROM users")
         users = db.fetchall()
         connect.close()
-        info = "<h2> data </h2><table border="1"><tr><th>username</th><th>balance</th><th>account number</th></tr>"
+        info = '<h2> data </h2><table border="1"><tr><th>username</th><th>balance</th><th>account number</th></tr>'
         for username, balance, account_number in users:
             info += f"<tr><td>{username}</td><td>{balance}</td><td>{account_number}</td></tr>"
         info += "</table><hr>"
         
         return f"""Hello world and especially {session["user"]}
+        {info}
         <form action="/moneytransfer" method="post">
         <p>Transfer money cause why not?</p>
         To: <input name="to"><br>
